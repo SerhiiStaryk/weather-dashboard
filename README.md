@@ -156,24 +156,38 @@ Reads project security conventions and detection patterns from `.github/instruct
 
 ---
 
+#### Refactoring Specialist
+
+Restructures code to follow project conventions after Code Reviewer identifies improvements. Extracts components/hooks, renames for clarity, converts patterns, and improves file organization — preserves behavior, verifies with tests.
+
+**How to invoke:**
+
+1. Open the file you want to refactor.
+2. Open the Copilot Chat panel.
+3. Use Code Reviewer agent first, then click the **"Apply Refactors"** handoff button.
+4. Alternatively, use one of the refactoring prompts: `/refactor`, `/extract-hook`, `/extract-component`, or `/fix-conventions`.
+
 ### Prompts
 
-| Slash command     | Agent            | Description                                             |
-| ----------------- | ---------------- | ------------------------------------------------------- |
-| `/write-tests`    | Test Writer      | Write or update Vitest tests for the open source file   |
-| `/update-readme`  | Readme Updater   | Update the "GitHub Copilot Agents" section in README.md |
-| `/security-audit` | Security Auditor | Run a deep security audit on the currently open file    |
+| Prompt               | Agent                  | Description                                                  |
+| -------------------- | ---------------------- | ------------------------------------------------------------ |
+| `/write-tests`       | Test Writer            | Write or update Vitest tests for the open source file        |
+| `/update-readme`     | Readme Updater         | Update the "GitHub Copilot Agents" section in README.md      |
+| `/security-audit`    | Security Auditor       | Run a deep security audit on the currently open file         |
+| `/refactor`          | Refactoring Specialist | Refactor the open file to follow all project conventions     |
+| `/extract-hook`      | Refactoring Specialist | Extract business logic from the open file into a custom hook |
+| `/extract-component` | Refactoring Specialist | Extract a reusable component from the open file              |
+| `/fix-conventions`   | Refactoring Specialist | Fix TypeScript conventions and imports in the open file      |
 
 ### Mocks (`src/mocks/`)
 
 MSW intercepts `api.openweathermap.org` requests. Special city names trigger error states:
 
-| City name     | Response                     |
-| ------------- | ---------------------------- |
+| City name | Response |
 | anything else | 200 with London fixture data |
-| `unknown`     | 404 Not Found                |
-| `badkey`      | 401 Unauthorized             |
-| `error`       | 500 Server Error             |
+| `unknown` | 404 Not Found |
+| `badkey` | 401 Unauthorized |
+| `error` | 500 Server Error |
 
 ## Project Ideas Skill
 
