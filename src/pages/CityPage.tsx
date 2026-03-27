@@ -30,7 +30,7 @@ export function CityPage() {
 
         {isLoading && <LoadingSkeleton />}
 
-        {error && <ErrorMessage error={error} />}
+        {error && <ErrorMessage error={error} fullPage />}
 
         {data && (
           <>
