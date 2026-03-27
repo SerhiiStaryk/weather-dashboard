@@ -9,9 +9,9 @@ export function FavoritesList() {
       <h2 className="text-lg font-semibold mb-3">Favorites</h2>
 
       {favorites.length === 0 ? (
-        <div className="text-center py-12 px-4 rounded-xl border border-dashed border-border bg-muted/30">
+        <div className="text-center py-12 px-4 rounded-xl border border-dashed border-border bg-muted/30 animate-fade-in">
           <svg
-            className="w-12 h-12 mx-auto mb-4 text-muted-foreground opacity-50"
+            className="w-12 h-12 mx-auto mb-4 text-muted-foreground opacity-50 animate-pulse"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -30,12 +30,13 @@ export function FavoritesList() {
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {favorites.map((city) => (
-            <FavoriteWeatherCard
+          {favorites.map((city, index) => (
+            <div
               key={city}
-              city={city}
-              onRemove={removeFavorite}
-            />
+              className={`animate-scale-in stagger-${Math.min(index + 1, 6)}`}
+            >
+              <FavoriteWeatherCard city={city} onRemove={removeFavorite} />
+            </div>
           ))}
         </div>
       )}

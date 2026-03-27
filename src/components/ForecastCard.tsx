@@ -1,5 +1,6 @@
 import type { ForecastDay } from '@/types/weather';
 import { WeatherIcon } from './WeatherIcon';
+import { Card, CardContent } from '@/components/ui/card';
 
 interface Props {
   day: ForecastDay;
@@ -16,20 +17,22 @@ function formatDate(dateStr: string): string {
 
 export function ForecastCard({ day }: Props) {
   return (
-    <div className="rounded-xl border bg-card text-card-foreground shadow-sm p-4 flex flex-col items-center gap-2">
-      <p className="text-sm font-medium text-muted-foreground">
-        {formatDate(day.date)}
-      </p>
-      <WeatherIcon icon={day.icon} description={day.description} size={56} />
-      <p className="text-xs capitalize text-center text-muted-foreground">
-        {day.description}
-      </p>
-      <div className="flex gap-2 text-sm font-medium">
-        <span>{Math.round(day.tempMax)}°</span>
-        <span className="text-muted-foreground">
-          {Math.round(day.tempMin)}°
-        </span>
-      </div>
-    </div>
+    <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-default">
+      <CardContent className="p-4 flex flex-col items-center gap-2">
+        <p className="text-sm font-medium text-muted-foreground">
+          {formatDate(day.date)}
+        </p>
+        <WeatherIcon icon={day.icon} description={day.description} size={56} />
+        <p className="text-xs capitalize text-center text-muted-foreground">
+          {day.description}
+        </p>
+        <div className="flex gap-2 text-sm font-medium">
+          <span>{Math.round(day.tempMax)}°</span>
+          <span className="text-muted-foreground">
+            {Math.round(day.tempMin)}°
+          </span>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

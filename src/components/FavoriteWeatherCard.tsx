@@ -13,7 +13,7 @@ export function FavoriteWeatherCard({ city, onRemove }: Props) {
   return (
     <Link
       to={`/city/${encodeURIComponent(city)}`}
-      className="group relative rounded-xl border bg-card text-card-foreground shadow-sm p-4 flex flex-col gap-3 hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="group relative rounded-xl border bg-card text-card-foreground shadow-sm p-4 flex flex-col gap-3 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       {/* Remove button — sits above the link click area */}
       <button
@@ -23,18 +23,20 @@ export function FavoriteWeatherCard({ city, onRemove }: Props) {
           onRemove(city);
         }}
         aria-label={`Remove ${city} from favorites`}
-        className="absolute top-2 right-2 text-muted-foreground hover:text-destructive transition-colors text-xs leading-none p-1 rounded opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
+        className="absolute top-2 right-2 text-muted-foreground hover:text-destructive hover:scale-125 transition-all text-xs leading-none p-1 rounded opacity-0 group-hover:opacity-100 focus-visible:opacity-100 hover:rotate-90"
       >
         ✕
       </button>
 
       {/* City name */}
-      <p className="text-sm font-semibold truncate pr-4">{city}</p>
+      <p className="text-sm font-semibold truncate pr-4 group-hover:text-primary transition-colors">
+        {city}
+      </p>
 
       {/* Loading skeleton */}
       {isLoading && (
         <div className="animate-pulse flex items-center gap-3">
-          <div className="h-10 w-10 rounded-full bg-muted shrink-0" />
+          <div className="h-10 w-10 rounded-full bg-muted shrink-0 animate-shimmer" />
           <div className="flex flex-col gap-1.5 flex-1">
             <div className="h-5 w-16 rounded bg-muted" />
             <div className="h-3 w-20 rounded bg-muted" />
@@ -44,17 +46,21 @@ export function FavoriteWeatherCard({ city, onRemove }: Props) {
 
       {/* Error state */}
       {error && !isLoading && (
-        <p className="text-xs text-destructive">Failed to load</p>
+        <p className="text-xs text-destructive animate-fade-in">
+          Failed to load
+        </p>
       )}
 
       {/* Weather data */}
       {data && !isLoading && (
         <div className="flex items-center gap-2">
-          <WeatherIcon
-            icon={data.current.icon}
-            description={data.current.description}
-            size={48}
-          />
+          <div className="transform group-hover:scale-110 transition-transform">
+            <WeatherIcon
+              icon={data.current.icon}
+              description={data.current.description}
+              size={48}
+            />
+          </div>
           <div className="min-w-0">
             <p className="text-2xl font-bold leading-none">
               {Math.round(data.current.temp)}°C
