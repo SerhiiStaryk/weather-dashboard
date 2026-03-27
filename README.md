@@ -141,12 +141,28 @@ Reviews the currently open file for bugs, type-safety issues, security vulnerabi
 
 ---
 
+#### Security Auditor
+
+Deep security analysis for the currently open file. Identifies OWASP Top 10 vulnerabilities, secrets exposure, injection flaws, authentication bypasses, and insecure dependencies. Returns a threat-prioritized report with exploit scenarios and remediation steps — does NOT edit files.
+
+Reads project security conventions and detection patterns from `.github/instructions/security-auditor.instructions.md` and other relevant instructions files. Checks dependencies, traces user input, and evaluates against React/TypeScript security issues. Reports findings with threat modeling and concrete fixes. Can hand off to a fix agent for remediation.
+
+**How to invoke:**
+
+1. Open the file you want to audit.
+2. Open the Copilot Chat panel.
+3. Switch the agent to **Security Auditor** using the agent picker.
+4. Send a message describing what you want, or run the associated `/security-audit` prompt.
+
+---
+
 ### Prompts
 
-| Slash command    | Agent          | Description                                             |
-| ---------------- | -------------- | ------------------------------------------------------- |
-| `/write-tests`   | Test Writer    | Write or update Vitest tests for the open source file   |
-| `/update-readme` | Readme Updater | Update the "GitHub Copilot Agents" section in README.md |
+| Slash command     | Agent            | Description                                             |
+| ----------------- | ---------------- | ------------------------------------------------------- |
+| `/write-tests`    | Test Writer      | Write or update Vitest tests for the open source file   |
+| `/update-readme`  | Readme Updater   | Update the "GitHub Copilot Agents" section in README.md |
+| `/security-audit` | Security Auditor | Run a deep security audit on the currently open file    |
 
 ### Mocks (`src/mocks/`)
 
