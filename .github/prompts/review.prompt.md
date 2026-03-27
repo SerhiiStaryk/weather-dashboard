@@ -1,6 +1,5 @@
 ---
 description: 'Review the currently open file for bugs, security vulnerabilities, type-safety issues, and project convention violations. Returns a structured severity-ranked report.'
-name: Review Code
 argument-hint: 'focus area (optional: security, types, conventions, performance, all)'
 agent: Code Reviewer
 ---

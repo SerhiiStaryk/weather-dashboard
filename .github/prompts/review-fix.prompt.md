@@ -1,6 +1,5 @@
 ---
 description: 'Review the currently open file for issues, then automatically apply safe refactoring fixes. Runs tests to verify behavior is preserved.'
-name: Review and Fix
 argument-hint: 'focus area (optional: security, types, conventions, performance, all)'
 agent: Code Reviewer
 ---
