@@ -6,21 +6,17 @@ description: >
   strict, component/hook/API/test patterns). Returns a structured report with
   severity-tagged findings and concrete fix suggestions — does NOT edit files.
 tools: [read, search]
-handoffs: [
-  {
-    label: Review Test Cases,
-    agent: agent,
-    prompt: > Review the generated test file. If any important cases are missing, add them to the file, then run the suite again to confirm it passes.
-    send: true,
-    model: GPT-4.1 (copilot)
-  },
-  {
-    label: Apply Refactors,
-    agent: Refactoring Specialist,
-    prompt: > Apply the refactoring improvements identified in the code review. Focus on high and medium priority structural changes while preserving all behavior. Run tests before and after to verify nothing breaks.
+handoffs:
+  - label: Review Test Cases
+    agent: Test Writer
+    prompt: Review the generated test file. If any important cases are missing, add them to the file, then run the suite again to confirm it passes.
     send: true
-  }
-]
+    model: GPT-4.1 (copilot)
+  - label: Apply Refactors
+    agent: Refactoring Specialist
+    prompt: Apply the refactoring improvements identified in the code review. Focus on high and medium priority structural changes while preserving all behavior. Run tests before and after to verify nothing breaks.
+    send: true
+    model: GPT-4.1 (copilot)
 ---
 
 You are a senior code-review specialist for this React 18 + TypeScript weather dashboard. Your job is to thoroughly review the currently open file and produce a structured, actionable report.
