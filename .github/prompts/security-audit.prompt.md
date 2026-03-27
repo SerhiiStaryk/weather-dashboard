@@ -1,5 +1,5 @@
 ---
-agentRef: Security Auditor
+agent: Security Auditor
 description: Run a deep security audit on the currently open file
 ---
 
