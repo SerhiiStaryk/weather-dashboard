@@ -1,0 +1,128 @@
+/* Weather Icon Animations */
+
+/* Slow spinning for sun */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+/* Gentle pulsing for moon/night */
+@keyframes pulse-slow {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+
+/* Floating animation for clouds */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Rain animation - gentle shake */
+@keyframes rain {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  25% {
+    transform: translateY(2px) translateX(-1px);
+  }
+  50% {
+    transform: translateY(0px);
+  }
+  75% {
+    transform: translateY(2px) translateX(1px);
+  }
+}
+
+.animate-rain {
+  animation: rain 0.5s ease-in-out infinite;
+}
+
+/* Thunderstorm animation - flash and shake */
+@keyframes storm {
+  0%,
+  90%,
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  93% {
+    opacity: 0.5;
+  }
+  94% {
+    opacity: 1;
+    transform: translateX(-2px);
+  }
+  96% {
+    transform: translateX(2px);
+  }
+}
+
+.animate-storm {
+  animation: storm 3s ease-in-out infinite;
+}
+
+/* Snow animation - gentle drift */
+@keyframes snow {
+  0%,
+  100% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-3px) translateX(-2px) rotate(-5deg);
+  }
+  66% {
+    transform: translateY(-2px) translateX(2px) rotate(5deg);
+  }
+}
+
+.animate-snow {
+  animation: snow 4s ease-in-out infinite;
+}
+
+/* Fog animation - horizontal drift */
+@keyframes fog {
+  0%,
+  100% {
+    transform: translateX(0px);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateX(3px);
+    opacity: 1;
+  }
+}
+
+.animate-fog {
+  animation: fog 4s ease-in-out infinite;
+}

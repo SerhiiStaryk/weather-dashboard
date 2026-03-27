@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import {
   WiDaySunny,
   WiNightClear,
@@ -12,27 +12,31 @@ import {
   WiSnow,
   WiFog,
 } from 'react-icons/wi';
+import './WeatherIcon.css';
 
-// Map OpenWeatherMap icon codes to react-icons components
-const iconMap: Record<string, FC<{ size: number; title: string }>> = {
-  '01d': ({ size, title }) => <WiDaySunny size={size} title={title} />,
-  '01n': ({ size, title }) => <WiNightClear size={size} title={title} />,
-  '02d': ({ size, title }) => <WiDayCloudy size={size} title={title} />,
-  '02n': ({ size, title }) => <WiNightAltCloudy size={size} title={title} />,
-  '03d': ({ size, title }) => <WiCloud size={size} title={title} />,
-  '03n': ({ size, title }) => <WiCloud size={size} title={title} />,
-  '04d': ({ size, title }) => <WiCloudy size={size} title={title} />,
-  '04n': ({ size, title }) => <WiCloudy size={size} title={title} />,
-  '09d': ({ size, title }) => <WiShowers size={size} title={title} />,
-  '09n': ({ size, title }) => <WiShowers size={size} title={title} />,
-  '10d': ({ size, title }) => <WiRain size={size} title={title} />,
-  '10n': ({ size, title }) => <WiRain size={size} title={title} />,
-  '11d': ({ size, title }) => <WiThunderstorm size={size} title={title} />,
-  '11n': ({ size, title }) => <WiThunderstorm size={size} title={title} />,
-  '13d': ({ size, title }) => <WiSnow size={size} title={title} />,
-  '13n': ({ size, title }) => <WiSnow size={size} title={title} />,
-  '50d': ({ size, title }) => <WiFog size={size} title={title} />,
-  '50n': ({ size, title }) => <WiFog size={size} title={title} />,
+// Map OpenWeatherMap icon codes to react-icons components with animation classes
+const iconMap: Record<
+  string,
+  { Component: FC<{ size: number; title: string; className?: string }>; animation: string }
+> = {
+  '01d': { Component: WiDaySunny, animation: 'animate-spin-slow' }, // clear sky day
+  '01n': { Component: WiNightClear, animation: 'animate-pulse-slow' }, // clear sky night
+  '02d': { Component: WiDayCloudy, animation: 'animate-float' }, // few clouds day
+  '02n': { Component: WiNightAltCloudy, animation: 'animate-float' }, // few clouds night
+  '03d': { Component: WiCloud, animation: 'animate-float' }, // scattered clouds
+  '03n': { Component: WiCloud, animation: 'animate-float' },
+  '04d': { Component: WiCloudy, animation: 'animate-float' }, // broken clouds
+  '04n': { Component: WiCloudy, animation: 'animate-float' },
+  '09d': { Component: WiShowers, animation: 'animate-rain' }, // shower rain
+  '09n': { Component: WiShowers, animation: 'animate-rain' },
+  '10d': { Component: WiRain, animation: 'animate-rain' }, // rain
+  '10n': { Component: WiRain, animation: 'animate-rain' },
+  '11d': { Component: WiThunderstorm, animation: 'animate-storm' }, // thunderstorm
+  '11n': { Component: WiThunderstorm, animation: 'animate-storm' },
+  '13d': { Component: WiSnow, animation: 'animate-snow' }, // snow
+  '13n': { Component: WiSnow, animation: 'animate-snow' },
+  '50d': { Component: WiFog, animation: 'animate-fog' }, // mist/fog
+  '50n': { Component: WiFog, animation: 'animate-fog' },
 };
 
 interface WeatherIconProps {
@@ -46,10 +50,8 @@ export const WeatherIcon: FC<WeatherIconProps> = ({
   description,
   size = 80,
 }) => {
-  const IconComponent = iconMap[icon];
-  if (IconComponent) {
-    return <IconComponent size={size} title={description} />;
-  }
-  // fallback: generic cloud icon
-  return <WiCloud size={size} title={description} />;
+  const iconData = iconMap[icon] || { Component: WiCloud, animation: 'animate-float' };
+  const { Component, animation } = iconData;
+
+  return <Component size={size} title={description} className={animation} />;
 };

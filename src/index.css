@@ -1,5 +1,22 @@
 @import 'tailwindcss';
 
+@theme {
+  --color-background: rgb(255 255 255);
+  --color-foreground: rgb(15 23 42);
+  --color-card: rgb(255 255 255);
+  --color-card-foreground: rgb(15 23 42);
+  --color-muted: rgb(241 245 249);
+  --color-muted-foreground: rgb(100 116 139);
+  --color-border: rgb(226 232 240);
+  --color-input: rgb(226 232 240);
+  --color-accent: rgb(241 245 249);
+  --color-accent-foreground: rgb(15 23 42);
+  --color-primary: rgb(59 130 246);
+  --color-primary-foreground: rgb(248 250 252);
+  --color-destructive: rgb(239 68 68);
+  --color-ring: rgb(59 130 246);
+}
+
 @layer base {
   *,
   *::before,
@@ -10,5 +27,22 @@
     margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  .dark {
+    --color-background: rgb(15 23 42);
+    --color-foreground: rgb(248 250 252);
+    --color-card: rgb(30 41 59);
+    --color-card-foreground: rgb(248 250 252);
+    --color-muted: rgb(51 65 85);
+    --color-muted-foreground: rgb(148 163 184);
+    --color-border: rgb(51 65 85);
+    --color-input: rgb(51 65 85);
+    --color-accent: rgb(51 65 85);
+    --color-accent-foreground: rgb(248 250 252);
+    --color-primary: rgb(59 130 246);
+    --color-primary-foreground: rgb(248 250 252);
+    --color-destructive: rgb(239 68 68);
+    --color-ring: rgb(59 130 246);
   }
 }

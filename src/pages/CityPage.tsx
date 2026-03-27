@@ -4,6 +4,7 @@ import { WeatherCard } from '@/components/WeatherCard';
 import { ForecastCard } from '@/components/ForecastCard';
 import { LoadingSkeleton } from '@/components/LoadingSkeleton';
 import { ErrorMessage } from '@/components/ErrorMessage';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 export function CityPage() {
   const { name } = useParams<{ name: string }>();
@@ -11,17 +12,20 @@ export function CityPage() {
   const { data, isLoading, error } = useWeather(decodedName);
 
   return (
-    <main className="min-h-screen bg-background py-12 px-4">
+    <main className="min-h-screen bg-background text-foreground py-12 px-4">
       <div className="max-w-xl mx-auto flex flex-col gap-6">
-        <div className="flex items-center gap-3">
-          <Link
-            to="/"
-            className="text-sm text-muted-foreground hover:underline"
-            aria-label="Back to home"
-          >
-            ← Back
-          </Link>
-          <h1 className="text-2xl font-bold tracking-tight">{decodedName}</h1>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Link
+              to="/"
+              className="text-sm text-muted-foreground hover:underline"
+              aria-label="Back to home"
+            >
+              ← Back
+            </Link>
+            <h1 className="text-2xl font-bold tracking-tight">{decodedName}</h1>
+          </div>
+          <ThemeToggle />
         </div>
 
         {isLoading && <LoadingSkeleton />}

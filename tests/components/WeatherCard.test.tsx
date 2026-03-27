@@ -50,7 +50,10 @@ describe('WeatherCard', () => {
 
   it('renders the weather description', () => {
     renderCard();
-    expect(screen.getByText('few clouds')).toBeInTheDocument();
+    const description = screen.getByText('few clouds', {
+      selector: 'p.text-muted-foreground',
+    });
+    expect(description).toBeInTheDocument();
   });
 
   it('renders humidity', () => {
@@ -63,10 +66,11 @@ describe('WeatherCard', () => {
     expect(screen.getByText('4.1 m/s')).toBeInTheDocument();
   });
 
-  it('renders the weather icon with correct src', () => {
+  it('renders the weather icon with correct description', () => {
     renderCard();
-    const img = screen.getByAltText('few clouds') as HTMLImageElement;
-    expect(img.src).toContain('02d@2x.png');
+    // The react-icons SVG includes a title element with the description
+    const icon = screen.getByTitle('few clouds');
+    expect(icon).toBeInTheDocument();
   });
 
   it('clicking the star button calls addFavorite when not favorited', async () => {
