@@ -6,7 +6,7 @@ description: >
   problems, and React re-render inefficiencies. Generates a detailed report
   with metrics, bottlenecks, and prioritized recommendations — can apply
   optimizations automatically.
-tools: [read, search, edit, terminal]
+tools: [execute/runInTerminal, read, edit, search]
 handoffs:
   - label: Review Applied Fixes
     agent: agent
@@ -72,33 +72,38 @@ First, determine the analysis scope from the user's prompt:
 ### 🔴 Critical (memory leaks / crashes)
 
 **useEffect Cleanup Missing**
+
 - Event listeners added but not removed on unmount
 - Timers (`setTimeout`, `setInterval`) not cleared
 - Subscriptions (TanStack Query, WebSocket, EventEmitter) not closed
 - Observers (IntersectionObserver, ResizeObserver, MutationObserver) not disconnected
 
 **Example Pattern**:
+
 ```tsx
 useEffect(() => {
-  window.addEventListener('resize', handler);  // ❌ Leak
+  window.addEventListener('resize', handler); // ❌ Leak
   // Missing: return () => window.removeEventListener('resize', handler);
 }, []);
 ```
 
 **Component Lifecycle Issues**
+
 - State updates on unmounted components
 - Async operations without cancellation
 - Refs holding stale closures
 
 **Example Pattern**:
+
 ```tsx
 useEffect(() => {
-  fetchData().then(setData);  // ❌ Updates state after unmount
+  fetchData().then(setData); // ❌ Updates state after unmount
   // Fix: use AbortController or isMounted flag
 }, []);
 ```
 
 **Large Object Retention**
+
 - Unnecessary data stored in state (e.g., entire API response when only subset needed)
 - Large objects in closures preventing garbage collection
 - Cached data not cleared on unmount
@@ -106,28 +111,32 @@ useEffect(() => {
 ### 🟠 High (significant memory churn)
 
 **Re-render Inefficiencies**
+
 - Missing `useMemo` for expensive calculations re-running on every render
 - Missing `useCallback` for functions passed as props causing child re-renders
 - Component re-renders due to inline object/array creation in JSX
 - Unnecessary dependencies in useEffect/useMemo/useCallback
 
 **Example Pattern**:
+
 ```tsx
 // ❌ New array created every render
-<Component items={data.filter(x => x.active)} />
+<Component items={data.filter((x) => x.active)} />;
 
 // ✅ Memoized
-const activeItems = useMemo(() => data.filter(x => x.active), [data]);
-<Component items={activeItems} />
+const activeItems = useMemo(() => data.filter((x) => x.active), [data]);
+<Component items={activeItems} />;
 ```
 
 **TanStack Query Issues**
+
 - `gcTime` too long keeping stale data in memory
 - Missing `enabled` flag causing unnecessary fetches
 - Over-fetching data that's never displayed
 - No query key scoping leading to cache bloat
 
 **State Management Issues**
+
 - State at page level instead of component level (wider scope = longer retention)
 - Duplicate state (derived values stored instead of computed)
 - Large localStorage usage without cleanup
@@ -135,16 +144,19 @@ const activeItems = useMemo(() => data.filter(x => x.active), [data]);
 ### 🟡 Medium (optimization opportunities)
 
 **Lazy Loading Missing**
+
 - Heavy components not code-split with `React.lazy`
 - Route-level components not lazy-loaded
 - Large libraries imported but rarely used
 
 **Memoization Gaps**
+
 - Components that render frequently without `React.memo`
 - Expensive selectors/filters not memoized
 - API response parsers called repeatedly with same input
 
 **DOM Management**
+
 - Large lists rendered without virtualization (>100 items)
 - Images without lazy loading
 - Heavy CSS animations keeping elements in memory
@@ -152,11 +164,13 @@ const activeItems = useMemo(() => data.filter(x => x.active), [data]);
 ### 🔵 Low (minor improvements)
 
 **Code Organization**
+
 - Heavy computations in render body instead of useMemo
 - Anonymous functions in JSX props (minor re-render impact)
 - Unused imports adding to bundle size
 
 **Type Safety**
+
 - Props interface could use `React.RefObject` instead of manual ref typing
 - Missing React.StrictMode checks (detects double-invocation issues)
 
@@ -170,6 +184,7 @@ For each issue, estimate:
 4. **User Impact**: Noticeable lag, eventual crash, battery drain, or minor
 
 **Example Calculation**:
+
 ```
 Issue: Event listener leak in ThemeToggle
 - Adds 1 listener on mount, never removes
@@ -186,6 +201,7 @@ Severity: 🔴 Critical
 Before reporting, run profiling tools to get precise measurements. **See `performance-analyzer.instructions.md` for detailed profiling interpretation guides and threshold values.**
 
 **1. React DevTools Profiler**
+
 ```bash
 # Start dev server if not running
 npm run dev
@@ -199,6 +215,7 @@ npm run dev
 ```
 
 **2. Chrome DevTools Memory Profiler**
+
 ```bash
 # Chrome DevTools > Memory tab
 # 1. Take heap snapshot before interaction
@@ -210,6 +227,7 @@ npm run dev
 ```
 
 **3. Performance Monitor (Real-time)**
+
 ```bash
 # Chrome DevTools > Performance Monitor panel
 # Metrics to watch:
@@ -220,6 +238,7 @@ npm run dev
 ```
 
 **4. Bundle Analysis**
+
 ```bash
 # Check bundle size and identify large chunks
 npm run build
@@ -230,6 +249,7 @@ du -sh dist/assets/*.js | sort -h
 ```
 
 **5. TanStack Query DevTools**
+
 ```bash
 # In dev mode, open React Query DevTools panel
 # Check: Query cache size, stale queries, refetch frequency
@@ -266,9 +286,10 @@ Group findings by severity (🔴 → 🟠 → 🟡 → 🔵).
 After the report, if fixable issues exist, ask:
 
 > **Apply fixes?**
+>
 > - ✅ Can auto-apply: N simple fixes (cleanup returns, dependency arrays)
 > - ⚠️ Need approval: M complex changes (restructuring, lazy loading, memoization)
-> 
+>
 > Should I proceed? Each fix will be tested immediately before moving to the next.
 
 ## Applying Fixes
@@ -276,11 +297,13 @@ After the report, if fixable issues exist, ask:
 ### Auto-Fix vs Manual Review
 
 **✅ Auto-apply (safe, minimal risk)**:
+
 - Add cleanup returns to useEffect (remove listeners, clear timers, abort requests)
 - Add missing dependencies to useEffect/useMemo/useCallback arrays
 - Fix simple memoization (useMemo for expensive calculations)
 
 **⚠️ Ask first (complex, needs review)**:
+
 - Component restructuring (splitting, extracting hooks)
 - Lazy loading / code splitting (changes imports and bundle structure)
 - useCallback for functions (may change component behavior)
@@ -335,6 +358,7 @@ Next: Re-run profiling to verify leak is resolved
 ### Testing Requirements
 
 **MANDATORY after every file edit**:
+
 ```bash
 # Run relevant test file
 npm test <ComponentName>.test.tsx
@@ -356,17 +380,20 @@ npm test <ComponentName>.test.tsx
 ## Special Project Patterns
 
 This project uses:
+
 - **TanStack Query v5** — check `staleTime`, `gcTime`, `enabled` flags
 - **localStorage** via `useFavorites` — ensure cleanup on limits
 - **React Router v7** — verify no state leaks between routes
 - **MSW** — ignore dev-only handlers in production analysis
 
 When analyzing hooks (`src/hooks/**`), verify:
+
 - No state updates after component unmount
 - Cleanup for any subscriptions or listeners
 - Proper dependency arrays (not empty when state/props used)
 
 When analyzing components (`src/components/**`, `src/pages/**`):
+
 - Event listeners in useEffect have cleanup
 - Expensive calculations use useMemo
 - Functions passed to children use useCallback
