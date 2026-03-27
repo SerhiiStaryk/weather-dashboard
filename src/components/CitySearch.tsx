@@ -1,14 +1,15 @@
-import { useState, type FormEvent } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 export function CitySearch() {
   const [value, setValue] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  function handleSubmit(e: FormEvent) {
+  function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
     const trimmed = value.trim();
     if (!trimmed) {
@@ -44,12 +45,9 @@ export function CitySearch() {
         </Button>
       </div>
       {error && (
-        <p
-          role="alert"
-          className="text-sm text-destructive animate-fade-in-down"
-        >
-          {error}
-        </p>
+        <Alert variant="destructive" className="animate-fade-in-down">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
       )}
     </form>
   );

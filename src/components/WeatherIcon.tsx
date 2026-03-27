@@ -6,22 +6,16 @@ import {
   WiNightAltCloudy,
   WiCloud,
   WiCloudy,
-  WiShowers,
-  WiRain,
   WiDayRain,
   WiNightRain,
   WiThunderstorm,
-  WiSnow,
   WiDaySnow,
   WiNightSnow,
-  WiFog,
   WiDayFog,
   WiNightFog,
   WiDayShowers,
   WiNightShowers,
   WiStormShowers,
-  WiHumidity,
-  WiStrongWind,
 } from 'react-icons/wi';
 import './WeatherIcon.css';
 

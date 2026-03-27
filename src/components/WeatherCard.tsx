@@ -2,7 +2,6 @@ import type { WeatherCondition } from '@/types/weather';
 import { useFavorites } from '@/hooks/useFavorites';
 import { WeatherIcon } from './WeatherIcon';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 
 interface Props {
   data: WeatherCondition;
