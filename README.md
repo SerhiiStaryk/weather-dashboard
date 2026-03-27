@@ -99,6 +99,14 @@ Memory-focused performance analysis for the currently open file. Detects memory 
 
 ### Components (`src/components/`)
 
+| --------------------- | ------------------------------------------------------------------- |
+| `CitySearch`          | Search form → navigates to `/city/:name`                            |
+| `WeatherCard`         | Main current-weather detail card (temp, feels-like, humidity, wind) |
+| `ForecastCard`        | Single forecast day (high/low, description, icon)                   |
+| `FavoriteWeatherCard` | Compact city card shown in the favorites grid                       |
+| `FavoritesList`       | Grid container for `FavoriteWeatherCard` items                      |
+| `ErrorMessage`        | User-friendly error display mapped from `WeatherError` type         |
+| `LoadingSkeleton`     | Pulse-animation placeholders shown while fetching                   |
 | Component             | Purpose                                                             |
 | --------------------- | ------------------------------------------------------------------- |
 | `CitySearch`          | Search form → navigates to `/city/:name`                            |
@@ -109,23 +117,9 @@ Memory-focused performance analysis for the currently open file. Detects memory 
 | `ErrorMessage`        | User-friendly error display mapped from `WeatherError` type         |
 | `LoadingSkeleton`     | Pulse-animation placeholders shown while fetching                   |
 
-
 ## GitHub Copilot Agents
 
 ### Agents
-
-#### Performance Analyzer
-
-Memory-focused performance analysis for the currently open file. Detects memory leaks, component lifecycle issues, missing cleanup, event listener problems, and React re-render inefficiencies. Generates a detailed report with metrics, bottlenecks, and prioritized recommendations — can apply optimizations automatically. Supports both single-file and project-wide analysis modes.
-
-**How to invoke:**
-
-1. Open the file or folder you want analyzed.
-2. Open the Copilot Chat panel.
-3. Switch the agent to **Performance Analyzer** using the agent picker.
-4. Send a message like "analyze this file for memory leaks" or "run a project-wide performance audit".
-
----
 
 #### Test Writer
 
@@ -137,6 +131,32 @@ Writes or updates Vitest + Testing Library tests for the currently open source f
 2. Open the Copilot Chat panel.
 3. Switch the agent to **Test Writer** using the agent picker.
 4. Send a message describing what you want, or run the associated `/write-tests` prompt.
+
+---
+
+#### Refactoring Specialist
+
+Restructures code to follow project conventions after Code Reviewer identifies improvements. Extracts components/hooks, renames for clarity, converts patterns, and improves file organization — preserves behavior, verifies with tests.
+
+**How to invoke:**
+
+1. Open the file you want to refactor.
+2. Open the Copilot Chat panel.
+3. Use Code Reviewer agent first, then click the **"Apply Refactors"** handoff button.
+4. Alternatively, use one of the refactoring prompts: `/refactor`, `/extract-hook`, `/extract-component`, or `/fix-conventions`.
+
+---
+
+#### Security Auditor
+
+Deep security analysis for the currently open file. Identifies OWASP Top 10 vulnerabilities, secrets exposure, injection flaws, authentication bypasses, and insecure dependencies. Returns a threat-prioritized report with exploit scenarios and remediation steps — does NOT edit files.
+
+**How to invoke:**
+
+1. Open the file you want to audit.
+2. Open the Copilot Chat panel.
+3. Switch the agent to **Security Auditor** using the agent picker.
+4. Send a message describing what you want, or run the associated `/security-audit` prompt.
 
 ---
 
@@ -152,52 +172,46 @@ Keeps README.md in sync whenever a new prompt (.prompt.md) or agent (.agent.md) 
 
 ---
 
+#### Performance Analyzer
+
+Memory-focused performance analysis for the currently open file. Detects memory leaks, component lifecycle issues, missing cleanup, event listener problems, and React re-render inefficiencies. Generates a detailed report with metrics, bottlenecks, and prioritized recommendations — can apply optimizations automatically. Supports both single-file and project-wide analysis modes.
+
+**How to invoke:**
+
+1. Open the file or folder you want analyzed.
+2. Open the Copilot Chat panel.
+3. Switch the agent to **Performance Analyzer** using the agent picker.
+4. Send a message like "analyze this file for memory leaks" or "run a project-wide performance audit".
+
+---
+
 #### Code Reviewer
 
-Reviews the currently open file for bugs, type-safety issues, security vulnerabilities (OWASP), and violations of project conventions (TypeScript strict mode, component/hook/API/test patterns). Produces a structured report with severity-tagged findings and concrete fix suggestions — does NOT edit any files.
+Reviews the currently open file for bugs, type-safety issues, security vulnerabilities (OWASP), and violations of project conventions (TypeScript strict, component/hook/API/test patterns). Returns a structured report with severity-tagged findings and concrete fix suggestions — does NOT edit files.
 
 **How to invoke:**
 
 1. Open the file you want reviewed.
 2. Open the Copilot Chat panel.
 3. Switch the agent to **Code Reviewer** using the agent picker.
-4. Send a message describing what you want reviewed.
+4. Send a message like "review this file" or run the associated `/review` or `/review-fix` prompt.
 
 ---
-
-#### Security Auditor
-
-Deep security analysis for the currently open file. Identifies OWASP Top 10 vulnerabilities, secrets exposure, injection flaws, authentication bypasses, and insecure dependencies. Returns a threat-prioritized report with exploit scenarios and remediation steps — does NOT edit files.
-
-Reads project security conventions and detection patterns from `.github/instructions/security-auditor.instructions.md` and other relevant instructions files. Checks dependencies, traces user input, and evaluates against React/TypeScript security issues. Reports findings with threat modeling and concrete fixes. Can hand off to a fix agent for remediation.
-
-**How to invoke:**
-
-1. Open the file you want to audit.
-2. Open the Copilot Chat panel.
-3. Switch the agent to **Security Auditor** using the agent picker.
-4. Send a message describing what you want, or run the associated `/security-audit` prompt.
-
----
-
-#### Refactoring Specialist
-
-Restructures code to follow project conventions after Code Reviewer identifies improvements. Extracts components/hooks, renames for clarity, converts patterns, and improves file organization — preserves behavior, verifies with tests.
-
-**How to invoke:**
-
-1. Open the file you want to refactor.
-2. Open the Copilot Chat panel.
-3. Use Code Reviewer agent first, then click the **"Apply Refactors"** handoff button.
-4. Alternatively, use one of the refactoring prompts: `/refactor`, `/extract-hook`, `/extract-component`, or `/fix-conventions`.
 
 ### Prompts
 
-| Slash command        | Agent                  | Description                                                  |
-| -------------------- | ---------------------- | ------------------------------------------------------------ |
-| `/write-tests`       | Test Writer            | Write or update Vitest tests for the open source file        |
-| `/update-readme`     | Readme Updater         | Update the "GitHub Copilot Agents" section in README.md      |
-| `/security-audit`    | Security Auditor       | Run a deep security audit on the currently open file         |
+| Slash command         | Agent                  | Description                                                  |
+| --------------------- | ---------------------- | ------------------------------------------------------------ |
+| `/write-tests`        | Test Writer            | Write or update Vitest tests for the open source file        |
+| `/extract-hook`       | Refactoring Specialist | Extract business logic from the open file into a custom hook |
+| `/refactor`           | Refactoring Specialist | Refactor the open file to follow all project conventions     |
+| `/fix-conventions`    | Refactoring Specialist | Fix TypeScript conventions and imports in the open file      |
+| `/extract-component`  | Refactoring Specialist | Extract a reusable component from the open file              |
+| `/security-audit`     | Security Auditor       | Run a deep security audit on the currently open file         |
+| `/update-readme`      | Readme Updater         | Update the "GitHub Copilot Agents" section in README.md      |
+| `/performance-analysis`| Performance Analyzer   | Analyze the currently open file for memory leaks and performance issues |
+| `/review`             | Code Reviewer          | Review the currently open file for bugs, security vulnerabilities, type-safety issues, and project convention violations |
+| `/review-fix`         | Code Reviewer          | Review the currently open file for issues, then automatically apply safe refactoring fixes |
 | `/refactor`          | Refactoring Specialist | Refactor the open file to follow all project conventions     |
 | `/extract-hook`      | Refactoring Specialist | Extract business logic from the open file into a custom hook |
 | `/extract-component` | Refactoring Specialist | Extract a reusable component from the open file              |
