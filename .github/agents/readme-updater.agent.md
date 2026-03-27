@@ -36,6 +36,7 @@ Use this structure exactly (add or remove subsections as the actual files dictat
 <One-paragraph description of what the agent does, derived from its frontmatter description and body.>
 
 **How to invoke:**
+
 1. Open the relevant source file (if applicable).
 2. Open the Copilot Chat panel.
 3. Switch the agent to **<Agent Name>** using the agent picker.
@@ -45,8 +46,8 @@ Use this structure exactly (add or remove subsections as the actual files dictat
 
 ### Prompts
 
-| Slash command | Agent | Description |
-| ------------- | ----- | ----------- |
+| Slash command  | Agent      | Description                            |
+| -------------- | ---------- | -------------------------------------- |
 | `/prompt-name` | Agent Name | One-line description from frontmatter. |
 ```
 
