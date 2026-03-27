@@ -28,7 +28,6 @@ npm install
 # copy the example env file and add your API key
 cp .env.example .env
 # VITE_OPENWEATHER_API_KEY=your_key_here
-
 npm run dev      # http://localhost:5173
 ```
 
@@ -53,22 +52,21 @@ npm run test:coverage # Coverage report
 
 ## Project Structure
 
-```
 src/
-  api/          # HTTP fetching + response parsing (no React)
-  components/   # Reusable UI components
-  hooks/        # Data + local-state hooks
-  mocks/        # MSW handlers, Node server, browser worker, fixtures
-  pages/        # Route-level components
-  types/        # Shared TypeScript interfaces (no logic)
+api/ # HTTP fetching + response parsing (no React)
+components/ # Reusable UI components
+hooks/ # Data + local-state hooks
+mocks/ # MSW handlers, Node server, browser worker, fixtures
+pages/ # Route-level components
+types/ # Shared TypeScript interfaces (no logic)
 tests/
-  components/   # Component tests (Testing Library)
-  setup.ts      # MSW lifecycle + jest-dom matchers
+components/ # Component tests (Testing Library)
+setup.ts # MSW lifecycle + jest-dom matchers
+
 ```
 
 ## Routes
 
-| Path          | Page       | Description                                 |
 | ------------- | ---------- | ------------------------------------------- |
 | `/`           | `HomePage` | City search bar + saved favorites grid      |
 | `/city/:name` | `CityPage` | Current weather + 3-day forecast for a city |
@@ -81,8 +79,20 @@ tests/
 - `fetchWeather.ts` — fetches `/data/2.5/weather` and `/data/2.5/forecast` from OpenWeatherMap
 - `weatherParser.ts` — transforms raw API responses into typed `WeatherData` / `ForecastDay[]`
 - `errors.ts` — maps HTTP status codes to typed `WeatherError` instances
-
 ### Hooks (`src/hooks/`)
+#### Performance Analyzer
+
+Memory-focused performance analysis for the currently open file. Detects memory leaks, component lifecycle issues, missing cleanup, event listener problems, and React re-render inefficiencies. Generates a detailed report with metrics, bottlenecks, and prioritized recommendations — can apply optimizations automatically. Supports both single-file and project-wide analysis modes.
+
+**How to invoke:**
+
+1. Open the file or folder you want analyzed.
+2. Open the Copilot Chat panel.
+3. Switch the agent to **Performance Analyzer** using the agent picker.
+4. Send a message like "analyze this file for memory leaks" or "run a project-wide performance audit".
+
+---
+
 
 - `useWeather(city)` — TanStack Query wrapper; fetches current + forecast in parallel, caches for 5 min
 - `useFavorites()` — manages a favorites list in `localStorage` (add / remove / isFavorite)
@@ -99,9 +109,23 @@ tests/
 | `ErrorMessage`        | User-friendly error display mapped from `WeatherError` type         |
 | `LoadingSkeleton`     | Pulse-animation placeholders shown while fetching                   |
 
+
 ## GitHub Copilot Agents
 
 ### Agents
+
+#### Performance Analyzer
+
+Memory-focused performance analysis for the currently open file. Detects memory leaks, component lifecycle issues, missing cleanup, event listener problems, and React re-render inefficiencies. Generates a detailed report with metrics, bottlenecks, and prioritized recommendations — can apply optimizations automatically. Supports both single-file and project-wide analysis modes.
+
+**How to invoke:**
+
+1. Open the file or folder you want analyzed.
+2. Open the Copilot Chat panel.
+3. Switch the agent to **Performance Analyzer** using the agent picker.
+4. Send a message like "analyze this file for memory leaks" or "run a project-wide performance audit".
+
+---
 
 #### Test Writer
 
@@ -169,7 +193,7 @@ Restructures code to follow project conventions after Code Reviewer identifies i
 
 ### Prompts
 
-| Prompt               | Agent                  | Description                                                  |
+| Slash command        | Agent                  | Description                                                  |
 | -------------------- | ---------------------- | ------------------------------------------------------------ |
 | `/write-tests`       | Test Writer            | Write or update Vitest tests for the open source file        |
 | `/update-readme`     | Readme Updater         | Update the "GitHub Copilot Agents" section in README.md      |
@@ -178,6 +202,8 @@ Restructures code to follow project conventions after Code Reviewer identifies i
 | `/extract-hook`      | Refactoring Specialist | Extract business logic from the open file into a custom hook |
 | `/extract-component` | Refactoring Specialist | Extract a reusable component from the open file              |
 | `/fix-conventions`   | Refactoring Specialist | Fix TypeScript conventions and imports in the open file      |
+
+| `/performance-analysis` | Performance Analyzer     | Analyze the currently open file for memory leaks and performance issues |
 
 ### Mocks (`src/mocks/`)
 
@@ -211,7 +237,10 @@ You can brainstorm and prioritize improvement ideas for this project using the *
 Example:
 
 ```
+
 /project-ideas features
+
 ```
 
 See `.github/skills/project-ideas/SKILL.md` for details.
+```
