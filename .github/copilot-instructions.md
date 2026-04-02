@@ -34,3 +34,10 @@ After creating or modifying any file in `.github/agents/` or `.github/prompts/`,
 2. Send: _"update the readme"_.
 
 The agent will rewrite only the `## GitHub Copilot Agents` section of `README.md` to reflect the latest agents and prompts.
+
+## All agent prompts MUST:
+
+- Include MCP context as JSON
+- Specify exact tests to pass
+- Require JSON-only output
+- Prefer smallest-patch fixes

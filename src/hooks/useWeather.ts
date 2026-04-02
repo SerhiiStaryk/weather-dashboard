@@ -1,17 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchCurrentWeather, fetchForecast } from '@/api/fetchWeather';
 import { parseCurrentWeather, parseForecastItems } from '@/api/weatherParser';
+import { fetchMcpWeather } from '@/mcp/client';
 import type { WeatherData } from '@/types/weather';
 
 async function fetchWeatherData(city: string): Promise<WeatherData> {
-  const [currentRaw, forecastRaw] = await Promise.all([
-    fetchCurrentWeather(city),
-    fetchForecast(city),
-  ]);
+  const result = await fetchMcpWeather(city);
+  if (!result.ok) {
+    throw result.error;
+  }
 
   return {
-    current: parseCurrentWeather(currentRaw),
-    forecast: parseForecastItems(forecastRaw),
+    current: parseCurrentWeather(result.payload.current),
+    forecast: parseForecastItems(result.payload.forecast),
   };
 }
 
