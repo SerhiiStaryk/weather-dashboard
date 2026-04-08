@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 
 const STORAGE_KEY = 'weather-favorites';
+const MAX_FAVORITES = 6;
 
 function readFavorites(): string[] {
   try {
@@ -8,7 +9,11 @@ function readFavorites(): string[] {
     if (!raw) return [];
     const parsed: unknown = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
-    return parsed.filter((item): item is string => typeof item === 'string');
+    return parsed
+      .filter((item): item is string => typeof item === 'string')
+      .map((city) => city.trim())
+      .filter((city) => city.length > 0)
+      .slice(0, MAX_FAVORITES);
   } catch {
     return [];
   }
@@ -28,7 +33,12 @@ export function useFavorites() {
   const addFavorite = useCallback((city: string) => {
     setFavorites((prev) => {
       const normalized = city.trim();
-      if (!normalized || prev.includes(normalized)) return prev;
+      if (
+        !normalized ||
+        prev.includes(normalized) ||
+        prev.length >= MAX_FAVORITES
+      )
+        return prev;
       const next = [...prev, normalized];
       writeFavorites(next);
       return next;
