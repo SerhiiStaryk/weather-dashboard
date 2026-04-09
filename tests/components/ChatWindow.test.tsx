@@ -27,9 +27,7 @@ describe('ChatWindow', () => {
 
     render(<ChatWindow />);
 
-    expect(
-      screen.getByText(/hi, i am your weather helper/i),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/hi, i am your weather helper/i)).toBeInTheDocument();
   });
 
   it('sends a user message and shows an assistant reply', async () => {
@@ -44,18 +42,11 @@ describe('ChatWindow', () => {
 
     render(<ChatWindow />);
 
-    await user.type(
-      screen.getByRole('textbox', { name: /chat message/i }),
-      'What should I wear tomorrow?',
-    );
+    await user.type(screen.getByRole('textbox', { name: /chat message/i }), 'What should I wear tomorrow?');
     await user.click(screen.getByRole('button', { name: /send/i }));
 
-    expect(
-      screen.getByText('What should I wear tomorrow?'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/start with layers: a breathable base/i),
-    ).toBeInTheDocument();
+    expect(screen.getByText('What should I wear tomorrow?')).toBeInTheDocument();
+    expect(screen.getByText(/start with layers: a breathable base/i)).toBeInTheDocument();
   });
 
   it('clears chat history back to the initial assistant message', async () => {
@@ -70,30 +61,17 @@ describe('ChatWindow', () => {
 
     render(<ChatWindow />);
 
-    await user.type(
-      screen.getByRole('textbox', { name: /chat message/i }),
-      'Tell me about favorite cities',
-    );
+    await user.type(screen.getByRole('textbox', { name: /chat message/i }), 'Tell me about favorite cities');
     await user.click(screen.getByRole('button', { name: /send/i }));
 
-    expect(
-      screen.getByText('Tell me about favorite cities'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/your favorite cities are: london/i),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Tell me about favorite cities')).toBeInTheDocument();
+    expect(screen.getByText(/favorite cities section/i)).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: /clear chat/i }));
 
-    expect(
-      screen.getByText(/hi, i am your weather helper/i),
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByText('Tell me about favorite cities'),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByText(/your favorite cities are: london/i),
-    ).not.toBeInTheDocument();
+    expect(screen.getByText(/hi, i am your weather helper/i)).toBeInTheDocument();
+    expect(screen.queryByText('Tell me about favorite cities')).not.toBeInTheDocument();
+    expect(screen.queryByText(/favorite cities section/i)).not.toBeInTheDocument();
   });
 
   it('shows favorite cities list in the chat card', () => {

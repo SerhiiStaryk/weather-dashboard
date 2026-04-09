@@ -11,6 +11,18 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    proxy: {
+      // forward any /api/* requests to the backend at :5201 to avoid CORS during dev
+      '/api': {
+        target: 'http://localhost:5201',
+        changeOrigin: true,
+        secure: false,
+        // preserve the path (/api/whatever -> /api/whatever)
+        rewrite: path => path,
+      },
+    },
+  },
   test: {
     environment: 'jsdom',
     setupFiles: ['./tests/setup.ts'],
